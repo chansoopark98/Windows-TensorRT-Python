@@ -3,7 +3,10 @@
 # Windows-TensorRT-Python
 Repository on how to install and infer TensorRT Python on Windows
 
-윈도우 환경에서 Tensorflow, PyTorch model을 TensorRT로 변환하고, 변환된 모델을 추론하는 예제를 포함합니다.
+Includes examples of converting Tensorflow and PyTorch models to TensorRT in the Windows environment and inferring the converted models.
+
+
+## 한국어 [README.md](https://github.com/chansoopark98/Windows-TensorRT-Python/blob/main/README_kr.md) 지원
 
 <br>
 <hr>
@@ -40,11 +43,11 @@ Repository on how to install and infer TensorRT Python on Windows
 ## 1.1 Installation CUDA
 <br>
 
-- **CUDA Toolkit 설치 ** :
+- **Install CUDA Toolkit** :
 
     https://developer.nvidia.com/cuda-11-4-4-download-archive
 
-- **환경 변수 설정** :
+- **Set windows environment variable** :
 
     ![image](https://github.com/chansoopark98/Windows-TensorRT-Python/assets/60956651/cb362cd5-5a64-4579-9aa9-5756b4370fd8)
 
@@ -56,16 +59,16 @@ Repository on how to install and infer TensorRT Python on Windows
 - **CuDNN** : https://developer.nvidia.com/rdp/cudnn-archive#a-collapse841-
 <br>
 
-- **파일 복사** :
+- **Copy files** :
 
-    설치받은 CuDNN **'bin', 'include', 'lib'** 폴더를 설치한 버전의 CUDA 폴더 안으로 이동
+    Move the installed CuDNN **'bin', 'include', 'lib'** folder into the CUDA folder of the installed version
     <br>
 
     ![image](https://github.com/chansoopark98/Windows-TensorRT-Python/assets/60956651/c603a448-8fcf-4d0e-90cc-6939c0ad0fba)
 
     <br>
 
-    재부팅 후 CUDA 설치 확인
+    Verify CUDA installation after reboot
 
         cmd -> nvcc -V
     
@@ -77,9 +80,9 @@ Repository on how to install and infer TensorRT Python on Windows
 
 <br>
 
-- **폴더 이동** :
+- **Move directory** :
 
-    설치받은 TensorRT .zip 파일을 C:\ 루트 디렉토리로 이동
+    Move the installed TensorRT .zip file to C:\ root directory
     ```cmd
     cd c:\TensorRT-8.2.5.1>
     ```
@@ -88,7 +91,7 @@ Repository on how to install and infer TensorRT Python on Windows
 
 - **Copy & Paste .dll, .lib files**
 
-    명령 프롬포트(cmd) -> 순차적으로 명령어 실행
+    Command Prompt (cmd) -> Run commands sequentially
     ```cmd
     copy c:\TensorRT-8.2.5.1\include "c:\Program Files\NVIDIA GPU Computing     Toolkit\CUDA\v11.4\include"
 
@@ -106,14 +109,14 @@ Repository on how to install and infer TensorRT Python on Windows
 
 ## 2.1 Create virtual enviroments
 
-- **가상 환경 설정**:
+- **Setting up a virtual environment**:
     ```cmd
     conda create -n tensorrt python=3.8
     ```
 
 <br>
 
-- **TensorRT Python 설치**:
+- **Install TensorRT Python**:
     ```cmd
     conda activate tensorrt
 
@@ -128,12 +131,12 @@ Repository on how to install and infer TensorRT Python on Windows
     pip install onnx_graphsurgeon/onnx_graphsurgeon-0.3.12-py2.py3-none-any.whl
     ```
 
-- **설치 확인**:
+- **Check installation**:
 
     ![image](https://github.com/chansoopark98/Windows-TensorRT-Python/assets/60956651/0e44b042-b5aa-492d-9e0b-53c0c62319a9)
     
 
-- **pycuda 설치**:
+- **Install pycuda**:
     ```cmd
     pip install pycuda
     ```
@@ -144,13 +147,14 @@ Repository on how to install and infer TensorRT Python on Windows
 
 # 3. Convert DL Models
 
-TensorRT는 Tensorflow, PyTorch, ONNX 등 다양한 DL 프레임워크를 지원합니다.
+TensorRT supports various DL frameworks including Tensorflow, PyTorch, and ONNX.
 
-본 레포지토리에서는 ONNX를 통한 TensorRT 모델 변환 예제를 포함합니다.
+This repository contains examples of converting TensorRT models via ONNX.
 
 ## 3.1 Install ONNX
 
-ONNX 설치를 위해 가상환경이 활성화된 상태에서 설치합니다.
+For ONNX installation, install with the virtual environment activated.
+
 ```cmd
 pip install onnx onnxruntime
 ```
@@ -161,11 +165,11 @@ pip install onnx onnxruntime
 
 - 3.2.1 Tensorflow to ONNX
 
-    - 모델 저장 :
+    - Save model :
 
-        Tensorflow에서 ONNX로 쉽게 변환하기 위해 tensorflow saved model format을 기준으로 합니다.
+        It is based on the tensorflow saved model format for easy conversion from Tensorflow to ONNX.
 
-        학습 또는 추론코드에서 tensorflow 모델 객체를 저장합니다.
+        Store tensorflow model objects in your training or inference code.
 
         ```python
         import tensorflow as tf
@@ -174,34 +178,34 @@ pip install onnx onnxruntime
         tf.saved_model.save(model, your_save_path)
         ```
 
-        **your_save_path** 는 저장 경로이며 별도의 확장자는 명시하지 않아도 됩니다.
+        **your_save_path** is the save path, and no extension is required.
 
-    - tf2onnx 설치:
+    - Install tf2onnx:
         ```cmd
         pip install -U tf2onnx
         ```
 
-    - 모델 변환:
+    - Model conversion:
         ```cmd
         python -m tf2onnx.convert --saved-model ./your_save_path/ --output model.onnx --opset 13
         ```
 
         <br>
 
-        **주의 사항**
+        **Caution**
 
-        1. onnx 버전에 따라 **--opset** 버전을 조정해야 합니다.
-        2. saved model format이 아닌 다른 형태로도 변환이 가능합니다. (frozen_graph, checkpoint)
-        3. 자세한 사항은 **python -m tf2onnx.convert --help**를 통해 확인할 수 있습니다.
+        1. You need to adjust the **--opset** version according to your onnx version.
+        2. It can be converted to other forms other than the saved model format. (frozen_graph, checkpoint)
+        3. Details can be checked through **python -m tf2onnx.convert --help**.
         
 
 <br>
 
 - 3.2.2 PyTorch to ONNX
 
-    파이토치 프레임워크는 내장 함수를 이용하여 ONNX 모델로 export 합니다.
+    The PyTorch framework uses built-in functions to export ONNX models.
 
-    - 모델 변환
+    - Model conversion
 
         ```python
         import torch
@@ -219,37 +223,39 @@ pip install onnx onnxruntime
         ```
 
 
-        **주의 사항**
+        **Caution**
 
-        1. onnx 버전에 따라 **--opset** 버전을 조정해야 합니다.
-        2.  PyTorch 모델마다 input_names, output_names가 다르니 layer name에 맞게 지정해서 변환을 수행합니다.
+        1. You need to adjust the **--opset** version according to your onnx version.
+        2. Input_names and output_names are different for each PyTorch model, so convert according to the layer name.
+
+<br>
 
 - 3.3 ONNX to TensorRT
 
-    Tensorflow/PyTorch에서 변환된 ONNX 모델을 TensorRT engine으로 변환합니다.
+    Convert ONNX models converted from Tensorflow/PyTorch to TensorRT engine.
 
-    변환된 .onnx 파일을 아래 경로로 복사합니다.
+    Copy the converted .onnx file to the path below.
     ```cmd
     copy your_saved_onnx_file.onnx c:\TensorRT-8.2.5.1\bin\
     ```
 
     <br>
     
-     trtexec를 사용하여 tensorRT engine으로 변환합니다.
+    Convert to tensorRT engine using trtexec.
     ```cmd
     .\trtexec.exe --onnx=your_saved_onnx_file.onnx --saveEngine=model.trt
     ```
 
     <br>
 
-    변환 시 **--help** 명령어를 이용해 추가 최적화 옵션 등 설정이 가능합니다.
+    During conversion, additional optimization options can be set using the **--help** command.
     ```cmd
     .\trtexec.exe --help
     ```
 
     <br>
 
-    변환이 완료된 경우, 아래 경로에 tensorRT engine 파일이 생성됩니다.
+    When the conversion is complete, the tensorRT engine file is created in the path below.
     ```cmd
     c:\TensorRT-8.2.5.1\bin\model.trt
     ```
@@ -260,17 +266,13 @@ pip install onnx onnxruntime
     
 # 4. Inference
 
-TensorRT engine파일의 추론 속도와 출력 결과를 확인할 수 있습니다.
+You can check the inference speed and output results of the TensorRT engine file.
 
 ```cmd
 python tensorRT_inference_example.py --model=model.trt --b 1 --h 224 --w 224 -c 3
 ```
 
-PyTorch 모델 shape(B,C,H,W)은 --torch_mode를 활성화합니다.
+PyTorch model shape(B,C,H,W) enable --torch_mode.
 ```cmd
 python tensorRT_inference_example.py --model=model.trt --b 1 --h 224 --w 224 -c 3 --torch_mode
 ```
-
-    
-
-
