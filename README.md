@@ -90,7 +90,7 @@ Repository on how to install and infer TensorRT Python on Windows
 
     명령 프롬포트(cmd) -> 순차적으로 명령어 실행
     ```cmd
-    copy c:\TensorRT-8.2.5.1\include "c:\Program Files\NVIDIA GPU Computing         Toolkit\CUDA\v11.4\include"
+    copy c:\TensorRT-8.2.5.1\include "c:\Program Files\NVIDIA GPU Computing     Toolkit\CUDA\v11.4\include"
 
     robocopy c:\TensorRT-8.2.5.1\lib "c:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.4\lib\x64" *.lib
 
